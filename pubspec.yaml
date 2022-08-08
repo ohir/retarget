@@ -1,0 +1,16 @@
+name: retarget
+description: conditional includes and code for Flutter and Dart
+version: 0.1.0
+# homepage: https://github.com/ohir/retarget
+
+environment:
+  sdk: '>=2.17.5 <3.0.0'
+
+dependencies:
+  path: ^1.8.2
+  args: ^2.3.1
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.16.0
+
