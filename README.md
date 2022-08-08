@@ -217,6 +217,18 @@ test/**/*.dart
 _Note: CI support, except RT\_ERRCODES, is just planned as of now_.
 
 
+### Install from github
+```
+cd yourworkspacedir
+git clone https://github.com/ohir/retarget.git
+cd retarget
+dart pub get # ! get/update dependencies
+dart analyze # should be ok
+dart compile exe -o bin/retarget bin/retarget.dart # posix/wsl, add .exe for Win
+cp bin/retarget ~/bin  # or /usr/local/opt/bin/ or where you keep local binaries
+```
+
+
 ### retarget --help
 ```
 Usage:
