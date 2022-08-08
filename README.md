@@ -92,7 +92,7 @@ Only expressions on the `#ifconf` pragma matters to the tool. Ones on `#else` an
 
 This pragma turns on/off a single line content (following the pragma) with condition being a single flag or a knob variant (+being set or -not).
 
-**Beware!** For now `dart format` **may break** your line pragma guarded code if line end reaches past the 80th column.  It honors 1st column `//`, but it thinks that it is permitted to move /* comments */ at will. There is [an issue]() filled against `dart format` for changing this behavior. You may hand-up there, if you're affected.
+**Beware!** For now `dart format` **may break** your line pragma guarded code if line end reaches past the 80th column.  It honors 1st column `//`, but it thinks that it is permitted to move /* comments */ at will (probably rigthful so).
 
 Especially DO NOT use line pragmas deep in Flutter code.  Nor set your IDE to use higher `dart format --line-length` (it will break for others).  IOW for now use Line pragma just for a single include. If you have more than one include under same condition it is better to keep them all within `#ifconf` or `#switch` scopes.
 
