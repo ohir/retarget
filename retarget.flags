@@ -1,2 +1,77 @@
-main: -win -ci
+# retarget.flags
+# This sample flags file is for a really big shop. Play a bit with it then
+# stick to two flags (eg. +dev +loc) and two knobs (eg. .os, .screen).
+# Two plus two equals sixty! Ie. that many integration test cases you might
+# need (4 states from two flags, × 5 states of .os knob, × 3 screen sizes).
+#
+# Flags:
+#     +dev   under development - +dev code may have dragonbugs lurking.
+#    +loud   turns on firehose of logs (makes app to crawl on older devices)
+#     +lbe   in-house backend, forced. Unset for flytests on AWS/Azure/GCE
+#     +18n   apply only to the stable parts of the app (after translations
+#            for a given feature were loaded to the cloud and vetted)
+#      !🦄   You may not do unicorns until you're able to make ordinary ponies
+#            happy.  Ie. "would be nice to have" big features are behind +🦄.
+# !release   guards local dev secrets. +release enables production backends.
+#            You can not pass code to release signer pipeline unless you
+#            override forced -release state (set +18n -loud -lbe -dev too).
+#            Read the docs, Luke! (And read release rules).
+#
+main: +dev *loud =lbe *i18n !🦄 !release       # +lbe -🦄 -release forced
+main: .?os .apos .+droid .lin .win .web        # platform knob
+main: .?screen .desk .=mobile .tv              # display knob
+main: .?store .fibase .icloud .dsql .+locbe    # storage knob, +dev uses +locbe
+main: .?native .amd .+arm .losong .mips        # for NDK includes generator
 
+### iOS/macOS
+apdev: +dev *loud =lbe *i18n !🦄 !release      #
+apdev: .?os .=apos .droid .lin .win .web       # iOS/macOS forced
+apdev: .?screen .desk .+mobile .tv             # phone/tablet
+apdev: .?store .!fibase .icloud .!dsql .+locbe # icloud only
+apdev: .?native .amd .+arm .!losong .!mips     # amd/arm only
+
+### Android
+drodev: +dev *loud =lbe *i18n !🦄 !release     #
+drodev: .?os .!apos .+droid .lin .!win .!web   # +lin allowed
+drodev: .?screen .desk .+mobile .tv            # phone/tablet
+drodev: .?store .fibase .!icloud .dsql .+locbe # icloud excluded
+drodev: .?native .amd .+arm .losong .mips      # all cpus
+
+### DeskOS
+desk: +dev *loud =lbe *i18n !🦄 !release       #
+desk: .?os .apos .droid .+lin .win .web        # web is desk
+desk: .?screen .+desk .!mobile .tv              # chromecasted too
+desk: .?store .fibase .icloud .dsql .+locbe    # icloud excluded
+desk: .?native .+amd .arm .losong .mips        # all cpus
+
+### Release ### still require sign-offs to override forced -release
+shipit: !dev !loud !lbe =i18n !🦄 !release
+shipit: .?os .apos .+droid .lin .win .web
+shipit: .?screen .desk .+mobile .tv
+shipit: .?store .+fibase .icloud .dsql .!locbe
+shipit: .?native .amd .+arm .losong .mips
+
+### --- END ---
+
+# line comments start with a sharp in the first column,
+# to EOL comment begins at the # past flags or knob variants bar.
+#
+# ------ TL;DR docs -----------------------------------------------------
+# bname: tells the branch name (one then summoned with `retarget @bname`)
+#        next line should provide flags and their defaults.
+# + - *  tells the stub engine what to put on a new #ifconf pragmas.
+#        Also informs the apply engine of default state for the branch.
+# = ! %  forbids to simply override respective +, -, or * on the cli.
+#        Overrides on the cli must be then forced too.
+#
+#        Next are knob definitions (up to 7):
+# .?name    makes a knob, .variant names follow (up to 6)
+# .+variant makes it a default for this knob (in a branch)
+# .=variant forces it to be the only default, others may not be chosen
+# .!variant forbids user to choose this variant (in a branch)
+#
+# All flag and variant names must be unique. Then all defined branches
+# must have the same set of flags, knobs, and variants as "main:" has.
+# Only predicates (+-* etc) on flags and variants may differ.
+# Thorough the code pragmas must keep order estabilished in "main:".
+# Main configuration itself is the one summoned by bare "retarget @".
