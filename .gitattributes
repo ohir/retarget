@@ -1,0 +1,12 @@
+# git config --global merge.nomerge.driver true
+.vimrc=nomerge
+notes.txt=nomerge
+env.retarget=nomerge
+retarget.flags=nomerge
+env.retarget.cleanup=nomerge
+retarget.code-workspace=nomerge
+CHANGELOG.md=nomerge
+README.md=nomerge
+LICENSE=nomerge
+TODO=nomerge
+
