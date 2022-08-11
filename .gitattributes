@@ -2,6 +2,7 @@
 .vimrc merge=ours
 spad.txt merge=ours
 notes.txt merge=ours
+pubspec.lock merge=ours
 env.retarget merge=ours
 retarget.flags merge=ours
 env.retarget.cleanup merge=ours
