@@ -1,2 +1,205 @@
---- branch specific notes for main branch ---
+//❌RT
+//❌RT 47 47 226 157 140 82 84
+--- dot hunt
+  fl__.       ss__.
+      .os.v1 from .os.v1.v2.v3.v4.v5.v6.v7
+  skip^  1        2  3  4  5  6  7  8  9  10
+       ^^---lint---^^
+                     1  2  3  4  5  6  7  8
 
+
+--- switches
+
+active:
+1st/def      middle      middle      last-1
+[0] //         [0] /*      [0] /*     [0] /*
+   active
+[1] /*         [1] */      [1] //     [1] //
+                  active
+[2] //         [2] /*      [2] */     [2] //
+                              active
+[3] //         [3] //      [3] /*     [3] //
+[4] //         [4] //      [4] //     [4] //
+[5] //         [5] //      [5] //     [5] */
+[E] */         [E] */      [E] */     [E] //
+
+// 1st: if (    !def and set) [0]='//'    [1]='/*'  [last]='*/'
+//      if (0<,<last and set) [0]='/*' [self]='*/'  [next]='/*'  [last]='*/'
+//      if (  last-1 and set) [0]='/*' [self]='*/'  [last]='//' (as mid but //)
+// def: if (last and not set) [0]='//'    [1]='/*'  [last]='*/' (as 1st)
+
+// prep. chgN='//';  chUp='*/';  chDn='/*';
+
+//  co //   dn/*  */up
+// 1st: if (    !def and set) [0]='//'    [1]='/*'  [last]='*/'
+//      if (0<,<last and set) [0]='/*' [self]='*/'  [next]='/*'  [last]='*/'
+//      if (  last-1 and set) [0]='/*' [self]='*/'  [last]='//' (as mid but //)
+// def: if (last and not set) [0]='//'    [1]='/*'  [last]='*/' (as 1st)
+
+--- if pragmas
+Output of pragmas per kind and state:
+
+     > pragmas <              > head start
+        e1 e2 e3       eTrue:  +2
+     i1 i2             iTrue:   0
+     // // /* */ // ab cd ef
+     0     i1 i2  9    iFalse: +4
+           e1 e2 e3    eFalse: +4
+
+/////**/// !=%-+ <= _pchars
+0123456789abcdef
+
+File up to 1GB,  checked in Pragma. Max chset range 511B from same base
+Changeset range
+         field:    2nd       1st   at
+Changeset bits:  9,7   |   9,7   | 30
+           int: 62,46  |  45,30  | 29,0
+
+/*
+ChgItem shape
+ place:         9b (second, can be zero)
+  char:         7b char to put at o+place
+ place:         9b +place   (first, non-zero)
+  char:         7b char to put at o+place
+  base: b0-b29 30b base offset o in file (at-1)
+  (LSb)
+*/
+
+
+
+ place:  9b (second, can be zero)
+  char:  7b char to put at o+place
+ place:  9b +place   (first, non-zero)
+  char:  7b char to put at o+place
+  base: 30b base offset o in file (at-1)
+  (LSb)
+
+vscode + vim hangs cmdline if stdout is filled AND error code is != 0!  thats a bug (to fill later)
+! it expects stderr filled, we print to stdout
+
+// e==46 || (e>47&&e<58)||(e>96&&e<123) ||(e>64&&e<91) // ascii .0-9a-zA-Z
+// To myself: do not waste time and space for things that can be
+// recreated if and when they are needed for diagnostics.
+// Eg. a line number of the pragma
+
+Add --stubtest to permutate on retarget.flags targets
+
+Rules: .name.v1.v2.v3.v4   # name varflag with four variants
+        All variant parts must have the same width
+        switch is over only one varflag
+        switch must be complete
+        variants must be ascii,
+        variants are sorted
+        in config varflags must be repeated as any other flag
+        default selection for bname uses UPPERCASE ascii
+        cmline selector uses `@bname .os.win` `@bname .os.and`
+        switches do not mix with ifs
+
+Changed name from varflag to knob 
+
+Lint: there can be a onofs-set defined in config that is nowhere
+      used. But there can be NO switch that uses undefined OneOf
+      or use undefined OneOf variant!
+
+// // { vAkcn...: #switch .os.dro from .os.DRO.ios.lin.mac.win
+                          ^^^^^^^ then cases must be exhaustive
+
+// // { vAkcn...: #switch .os.* from .os.DRO.ios.lin.mac.win
+    default code area     ^^^^^ 0 or more cases follow
+/* //}{ vAkcn---: #caseof .os.ios from .os.DRO.ios.lin.mac.win
+// //}{ vAkcn---: #caseof .os.lin from .os.DRO.ios.lin.mac.win
+// //}{ vAkcn---: #caseof .os.mac from .os.DRO.ios.lin.mac.win
+// //}{ vAkcn---: #caseof .os.win from .os.DRO.ios.lin.mac.win
+*/ // } vAkcn^^^: #esw OF .os.DRO.ios.lin.mac.win
+
+
+// // { nMuSq___: #ifconf -andr +apos *desk +dev -lin -win
+
+config: bname:  .os.win.LIN.apl.and .scr.pho.tab.mon.tvs
+
+/* // { nMuSq___: #switch .os.win  // from os.win.LIN.apl.and
+// //}{ nMuSq...: #caseOf .os.apl
+// //}{ nMuSq...: #caseOf .os.apl
+*/ //}{ nMuSq...: #caseOf .os.lin
+  lin
+/* //}{ nMuSq...: #caseOf .os.* // default
+*/ // } nMuSq^^^: #esw @@ .os.*
+
+/* // { nMuSq___: #switch os.win
+*/ //}{ nMuSq---: #case|: os.apl
+  apl
+/* //}{ nMuSq---: #case|: os.lin
+// //}{ nMuSq---: #case|: os.and
+*/ // } nMuSq^^^: #esw @@ os.*
+
+// // { nMuSq___: #switch os.win
+  win
+/* //}{ nMuSq---: #case|: os.apl
+// //}{ nMuSq---: #case|: os.lin
+// //}{ nMuSq---: #case|: os.and
+*/ // } nMuSq^^^: #esw @@ os.*
+
+/* // { nMuSq___: #switch os.win
+// //}{ nMuSq---: #case|: os.apl
+// //}{ nMuSq---: #case|: os.lin
+*/ //}{ nMuSq---: #case|: os.and
+  and
+// // } nMuSq^^^: #esw @@ os.*
+
+LOL! Really got this random :)))
+// // { ppsex___: #ifconf -crasha +dev *i18n +locmo *loud
+/* //}{ ppsex```: #else ! -crasha +dev *i18n +locmo *loud
+*/ // } ppsex^^^: #efi @! -crasha +dev *i18n +locmo *loud
+
+
+  // UnmodifiableUint8ListView bu;
+  // type 'Uint8List' is not a subtype of type 'UnmodifiableUint8ListView' in type cast
+  // though docs say it implements one
+  // https://github.com/dart-lang/sdk/issues/40924
+  // https://github.com/dart-lang/sdk/issues/42785
+  // https://github.com/dart-lang/sdk/issues/42785#issuecomment-662417470
+  // The UnmodifiableUint8ListView class is right now tree-shakable. If Dart
+  // code does not use it we get the benefits mentioned above. If Dart code uses
+  // it, these optimizations are disabled in AOT. Call sites become polymorphic,
+  // any code working with bytes becomes significantly slower.
+
+  // XXX Windows
+  // a) separator  b) root [x] fixed
+  // c) https://github.com/dart-lang/sdk/issues/41012
+  // There is NO way in Dart on Windows to check if file is writeable
+  // apart from trying to write it and expect exception if it is not
+  // Uhh.. there is also a can of worms under POSIX, no mode sets
+
+-- per file flags check:
+   make a flagset from first seen pragma
+
+allflag: %flag %flag %flag  // all flags
+givflag: -flag +flag -flag  // given flags
+praflag: +flag -flag *flag  // on pragma
+
+for i, tb byte in allflag {
+  switch {
+   case tb == % :
+    switch {
+      case pra[i] == * :
+      case pra[i] == + :
+      case pra[i] == - :
+      default: bad pragma.
+    }
+    if pra[i] != * && giv[i] != pra[i] {
+      // false
+    }
+   case tb !=
+
+  }
+
+
+}
+            // from applyWorkSync
+            /* // TODO MARK dbgprint writefile
+            if (diag) {
+              obs.write('change at: $at');
+              obs.write(' \t[$cnt]${at + o}:(');
+              obs.writeCharCode(c);
+              obs.write(') ');
+            } */

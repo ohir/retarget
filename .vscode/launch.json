@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "retarget",
+            "program": "bin/retarget.dart",
+            "args": [
+                "ret",
+                "-h",
+                "--from",
+                "launcher",
+                "@test"
+            ],
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Other",
+            "program": "bin/retarget.dart",
+            "args": [
+                "ret",
+                "-h",
+                "@test"
+            ],
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}

@@ -4,6 +4,15 @@
 			"path": "."
 		},
 	],
+	"settings": {
+		"[spad]": {
+			"workbench.editor.languageDetection": false
+		},
+		"debug.terminal.clearBeforeReusing": true,
+		"terminal.integrated.enableFileLinks": false,
+		"terminal.integrated.env.osx": {},
+		"dart.cliConsole": "terminal"
+	},
 	"launch": {
 		"version": "0.2.0",
 		"configurations": [
