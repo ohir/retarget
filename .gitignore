@@ -7,4 +7,9 @@ build/
 
 # project
 _off/
+bisect/
+goldprod/
+bin/retarget
+notes.txt
+TODO
 
