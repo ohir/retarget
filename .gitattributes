@@ -1,12 +1,13 @@
-# git config --global merge.nomerge.driver true
-.vimrc=nomerge
-notes.txt=nomerge
-env.retarget=nomerge
-retarget.flags=nomerge
-env.retarget.cleanup=nomerge
-retarget.code-workspace=nomerge
-CHANGELOG.md=nomerge
-README.md=nomerge
-LICENSE=nomerge
-TODO=nomerge
+# git config --global merge.ours.driver true
+.vimrc merge=ours
+spad.txt merge=ours
+notes.txt merge=ours
+env.retarget merge=ours
+retarget.flags merge=ours
+env.retarget.cleanup merge=ours
+retarget.code-workspace merge=ours
+CHANGELOG.md merge=ours
+README.md merge=ours
+LICENSE merge=ours
+TODO merge=ours
 
