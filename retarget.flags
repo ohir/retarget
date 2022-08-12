@@ -1,4 +1,4 @@
-# retarget.flags
+# retarget.flags file for trunk
 # This sample flags file is for a really big shop. Play a bit with it then
 # stick to two flags (eg. +dev +loc) and two knobs (eg. .os, .screen).
 # Two plus two equals sixty! Ie. that many integration test cases you might
