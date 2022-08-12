@@ -107,7 +107,7 @@ class FileChanges {
       for (i = 0; i < end; i++) {
         var p = all[i];
         p.lno = lno(p.at);
-        p._diag(bu);
+        p._diag(Uint8List.view(bu.buffer));
       }
     }
     // collect changes
@@ -746,8 +746,13 @@ FileChanges parseSingleSync(Config cfg, File f) {
   }
   if (bu.lengthInBytes < pragmaLength) {
     return FileChanges(path: f.absolute.path);
-  }
-  if (isExcluded(bu)) {
+  } else if (bu[0] == 47 && // /   rt-exclude marker
+      bu[1] == 47 && // /   not advertised
+      bu[2] == 226 && // ❌
+      bu[3] == 157 &&
+      bu[4] == 140 &&
+      bu[5] == 82 && // R
+      bu[6] == 84) {
     return FileChanges(path: f.absolute.path, excluded: true);
   }
   return parseBufferSync(cfg, Uint8List.view(bu.buffer), f.absolute.path);
@@ -774,7 +779,7 @@ FileChanges parseBufferSync(Config cfg, Uint8List bu, String path) {
         bu[i - 1] != 0x20) {
       continue;
     } // got pragma head
-    var pgn = r.freshPg(bu, i - 18, cfg);
+    var pgn = r.freshPg(Uint8List.view(bu.buffer), i - 18, cfg);
     i = pgn.to > i ? pgn.to : i; // corrupted pragma, skip past #
     if (pgn.err != null) {
       r.bad = pgn;
@@ -836,18 +841,10 @@ FileChanges parseBufferSync(Config cfg, Uint8List bu, String path) {
       }
     }
   }
-  r.seal(bu, cfg); // do chores, release as much memory as possible
+  // do final chores, release as much memory as possible
+  r.seal(Uint8List.view(bu.buffer), cfg);
   return r;
 }
-
-// not all files qualify, but don't advertise this fuse
-bool isExcluded(Uint8List bu) => (bu[0] == 47 && // /
-    bu[1] == 47 && // /
-    bu[2] == 226 && // ❌
-    bu[3] == 157 &&
-    bu[4] == 140 &&
-    bu[5] == 82 && // R
-    bu[6] == 84);
 
 // Future<void> findWork(Config cfg) async {
 // we need no async here, really, unlesssome  future version will
