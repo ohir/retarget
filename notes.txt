@@ -3,6 +3,19 @@
 --- branch specific notes for trunk branch ---
 --- branch specific notes for trunk branch ---
 --- branch specific notes for trunk branch ---
+
+https://git-scm.com/docs/githooks#_pre_merge_commit
+we should do `git status -sb --porcelain here` then reset HEADS for all new files
+IF the branch is main. Therefore chores with removing new files will be automatic,
+for the chores of adding new files manually _before_ merge, ie. 
+`touch new-file`
+commit empty new-file
+then we will have U pdate instead of N new
+
+anyway, this for now is a plain old yak-shaving, let it rest
+
+
+
 //❌RT
 //❌RT 47 47 226 157 140 82 84
 --- dot hunt
