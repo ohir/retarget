@@ -1,29 +1,9 @@
 --- branch specific notes for main branch ---
+There is a peculiar configuration I (ohir) did to not pollute public repo
+with artifacts of "alien" testing and experiments in the working branch.
+I also personally do not like when public repos come with IDE settings.
+So I am trying to exclude a few things from merging to branch, while
+having them versioned in trunk. Something that is easy in fossil, but
+hard to do in git.
 --- branch specific notes for main branch ---
---- branch specific notes for main branch ---
---- branch specific notes for main branch ---
---- branch specific notes for main branch ---
-Keeping public repo usable for others is quite hard with git
-Someone who just cloned repo should not be forced to change IDE to "mines"
-while I'd like to be able do edits for "main" also in an IDE and vim
-configured to my tastes.
-
-For now trying the gitattributes path. .git/info/attribute Excludes:
-# git config merge.nomerge.driver true
-.vimrc               merge=nomerge
-notes.txt            merge=nomerge
-env.retarget         merge=nomerge
-pubspec.lock         merge=nomerge
-.vscode/**           merge=nomerge
-.dart_tool/**        merge=nomerge
-retarget.flags       merge=nomerge
-env.retarget.cleanup merge=nomerge
-retarget.code-workspace merge=nomerge
-
-This works ONLY IF THERE IS A MERGE CONFLICT!
-So once you merge anything FROM main back to the dirty working branch,
-this mechanics won't work. It also needs ff=false for merges
-
-This file I normally use as a scratchpad that is excluded from VSCode 
-"magic heuristics" see: https://github.com/microsoft/vscode/issues/142973
 
