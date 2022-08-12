@@ -1,7 +1,7 @@
 {
 	"folders": [
 		{
-			"name": "trunk"
+			"name": "retarget trunk"
 			"path": "."
 		},
 	],
