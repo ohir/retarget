@@ -1,2 +1,3 @@
+# retarget.flags file for main (public branch)
 main: -win -ci
 
