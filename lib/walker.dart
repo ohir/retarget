@@ -41,7 +41,7 @@ class FileChanges {
   });
 
   /// destructor, yep.
-  void seal(Uint8List bu, File f, Config cfg) {
+  void seal(Uint8List bu, Config cfg) {
     if (_pgall == null || _pgall!.parts.isEmpty) {
       _seen = null;
       _pgall = null;
@@ -750,9 +750,13 @@ FileChanges parseSingleSync(Config cfg, File f) {
   if (isExcluded(bu)) {
     return FileChanges(path: f.absolute.path, excluded: true);
   }
+  return parseBufferSync(cfg, Uint8List.view(bu.buffer), f.absolute.path);
+}
+
+FileChanges parseBufferSync(Config cfg, Uint8List bu, String path) {
   var i = -1;
   var end = bu.lengthInBytes;
-  final r = FileChanges(path: f.absolute.path);
+  final r = FileChanges(path: path);
   var seen = r.pastSeen;
   pgNext:
   while ((i = bu.indexOf(0x23, i + 1)) >= 0) {
@@ -832,7 +836,7 @@ FileChanges parseSingleSync(Config cfg, File f) {
       }
     }
   }
-  r.seal(bu, f, cfg); // do chores, release as much memory as possible
+  r.seal(bu, cfg); // do chores, release as much memory as possible
   return r;
 }
 
