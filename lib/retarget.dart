@@ -48,7 +48,7 @@ const osCR = 13; // file may use LF endings on windows, or CRLF on unix
 
 // globals
 final List<String> ourSubdirs = <String>['lib', 'bin', 'test'];
-final List<String> ourFileExt = <String>['.dart', '.rtoff', '.dartx', '.yaml'];
+final List<String> ourFileExt = <String>['.dart', '.rtoff', '.rtdart', '.yaml'];
 
 // enums
 enum PgType {
