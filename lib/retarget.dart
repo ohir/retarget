@@ -221,8 +221,8 @@ shipit: .?native .amd .+arm .losong .mips
 const samplePragmas =
     '''// retarget test file (complements `retarget --init` generated example config)
 //
-/* // @ :Target:: # @desk +dev -loud +lbe -i18n -🦄 -release ᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫|
- .os.web .screen.desk .store.locbe .native.amd  ᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫*/
+/* // @ :Target:: # @main +dev -loud +lbe -i18n -🦄 -release ᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫|
+ .os.droid .screen.mobile .store.locbe .native.arm ᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫᛫*/
 
 //--- Target info (above) ------------------------ stub: --stubtag @ ---
 //    always updated with the last applied configuration
@@ -236,7 +236,7 @@ const samplePragmas =
    retarget @desk +i18n                   # set i18n @desk
    retarget @desk +i18n -dev              # set i18n, unset dev @desk
    retarget @desk os.web +dev +i18n       # set web, set dev, i18n @desk
-   retarget @desk os.win -dev \\=🦄       # override forced -🦄
+   retarget @desk os.win -dev \=🦄       # override forced -🦄
    retarget @desk screen.=mobile          # override forbidden !mobile
 */
 
@@ -250,27 +250,27 @@ const samplePragmas =
 // /* @ +apos***: # */ import 'rt_cupertino.dart';
 // /* @ +apos***: # */ import 'rt_macos_ui.dart';
 // /* @ +win****: # */ import 'rt_fluent_ui.dart';
-/* // @ +web****: # */ import 'dart:html'
-// /* @ -web****: # */ import 'dart:io'
+// /* @ +web****: # */ import 'dart:html'
+/* // @ -web****: # */ import 'dart:io'
 
 
 //--- Simple If ----------------------------- stub: --stubif @branch ---
 //
-// // { zkhuk___: #ifconf +dev *loud +lbe *i18n -🦄 -release
+/* // { zkhuk___: #ifconf +dev *loud +lbe +i18n -🦄 -release
       /* Here goes your "condition is true" code. */
 
-// // } zkhuk^^^: #efi @@ +dev *loud +lbe *i18n -🦄 -release
+*/ // } zkhuk^^^: #efi @@ +dev *loud +lbe +i18n -🦄 -release
 
 
 //--- If with Else -------------------------- stub: --stubel @branch ---
 //
-// // { tmmjj___: #ifconf +dev *loud +lbe *i18n -🦄 -release
+// // { tmmjj___: #ifconf +dev *loud +lbe -i18n -🦄 -release
       /* Here goes your "condition is true" code. */
 
-/* //}{ tmmjj```: #else ! +dev *loud +lbe *i18n -🦄 -release
+/* //}{ tmmjj```: #else ! +dev *loud +lbe -i18n -🦄 -release
       /* Here goes your "condition is false" code. */
 
-*/ // } tmmjj^^^: #efi @! +dev *loud +lbe *i18n -🦄 -release
+*/ // } tmmjj^^^: #efi @! +dev *loud +lbe -i18n -🦄 -release
 
 
 //--- Knob switch -------------- stub: --stubsw @branch knob.variant ---
@@ -286,15 +286,14 @@ const samplePragmas =
 
 //--- Exhaustive knob switch ------- stub: --stubsw @branch "knob.*" ---
 //
-// // { fystw...: #switch .screen.desk from .screen.DESK.mobile.tv
+/* // { fystw...: #switch .screen.desk from .screen.DESK.mobile.tv
        /* Here goes your ".screen.desk" variant code... */
 
-/* //}{ fystw---: #caseof .screen.mobile from .screen.desk.MOBILE.tv
+*/ //}{ fystw---: #caseof .screen.mobile from .screen.desk.MOBILE.tv
        /* Here goes your ".screen.mobile" variant code... */
 
-// //}{ fystw---: #caseof .screen.tv from .screen.desk.mobile.TV
+/* //}{ fystw---: #caseof .screen.tv from .screen.desk.mobile.TV
        /* Here goes your ".screen.tv" variant code... */
 
 */ // } fystw^^^: #esw OF .screen.desk.mobile.tv
-
 ''';

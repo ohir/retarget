@@ -15,7 +15,7 @@
    retarget @desk +i18n                   # set i18n @desk
    retarget @desk +i18n -dev              # set i18n, unset dev @desk
    retarget @desk os.web +dev +i18n       # set web, set dev, i18n @desk
-   retarget @desk os.win -dev \=🦄       # override forced -🦄
+   retarget @desk os.win -dev =🦄       # override forced -🦄
    retarget @desk screen.=mobile          # override forbidden !mobile
 */
 
@@ -35,21 +35,21 @@
 
 //--- Simple If ----------------------------- stub: --stubif @branch ---
 //
-// // { zkhuk___: #ifconf +dev *loud +lbe *i18n -🦄 -release
+/* // { zkhuk___: #ifconf +dev *loud +lbe +i18n -🦄 -release
       /* Here goes your "condition is true" code. */
 
-// // } zkhuk^^^: #efi @@ +dev *loud +lbe *i18n -🦄 -release
+*/ // } zkhuk^^^: #efi @@ +dev *loud +lbe +i18n -🦄 -release
 
 
 //--- If with Else -------------------------- stub: --stubel @branch ---
 //
-// // { tmmjj___: #ifconf +dev *loud +lbe *i18n -🦄 -release
+// // { tmmjj___: #ifconf +dev *loud +lbe -i18n -🦄 -release
       /* Here goes your "condition is true" code. */
 
-/* //}{ tmmjj```: #else ! +dev *loud +lbe *i18n -🦄 -release
+/* //}{ tmmjj```: #else ! +dev *loud +lbe -i18n -🦄 -release
       /* Here goes your "condition is false" code. */
 
-*/ // } tmmjj^^^: #efi @! +dev *loud +lbe *i18n -🦄 -release
+*/ // } tmmjj^^^: #efi @! +dev *loud +lbe -i18n -🦄 -release
 
 
 //--- Knob switch -------------- stub: --stubsw @branch knob.variant ---
