@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-# retarget.flags file for main (public branch)
-main: -win -ci
-
-=======
-# retarget.flags
+# retarget.flags big sample
 # This sample flags file is for a really big shop. Play a bit with it then
 # stick to two flags (eg. +dev +loc) and two knobs (eg. .os, .screen).
 # Two plus two equals sixty! Ie. that many integration test cases you might
@@ -83,4 +78,3 @@ shipit: .?native .amd .+arm .losong .mips
 # Only predicates ( + - * % ! = ) on flags and variants may differ.
 # Thorough the code pragmas must keep order estabilished in "main:".
 # Main code configuration itself is one for the bare "retarget @".
->>>>>>> trunk
