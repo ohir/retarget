@@ -1,0 +1,20 @@
+# Files and directories created by pub.
+.dart_tool/
+.packages
+
+# Conventional directory for build output.
+build/
+
+# project
+_off/
+bisect/
+goldprod/
+bin/retarget
+notes.txt
+retarget.code-workspace
+retarget.flags
+test/pragmas.rtdart
+update.sh
+update_clean.sh
+TODO
+
