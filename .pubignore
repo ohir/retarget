@@ -16,5 +16,6 @@ retarget.flags
 test/pragmas.rtdart
 update.sh
 update_clean.sh
+FUNDING.yml
 TODO
 
