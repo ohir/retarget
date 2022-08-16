@@ -24,7 +24,7 @@ The `retarget` tool takes a set of _flag_ identifiers then comments-out or uncom
   // // } guard^^^: #efi @! +ios *dev
   }
 ```
-_"Guard" of a five random characters binds pragma lines into a single set._
+_guard is made of a five random characters that bind pragma lines into a single set._
 
 New pragma set can be generated with the `--stub` family options to the command, usually hooked to the IDE action. Eg. vim's `:r! retarget --stubel @ +ios *dev` command was used to generate the three `#ifconf/else/efi` pragma lines above.
 
@@ -128,33 +128,33 @@ Flags in a branch template can be set as _forced_, so they may not be unwittingl
 
 Eg. `apmob: !dro !mips =ios *dev %test` will template a pragma expression of `-dro -mips +ios *dev *test`, allowing user to override only the "dev".  Would user try to change expression eg. giving `--stub @apmob +mips`, tool linter will tell her that `+mips` is not meant for this branch at all.  Nor she could override it just for apply with `retarget @apmob +mips`.
 
-Forced defaults make harder to produce a pragma expression that does not fit with the given branch code configuration, and it makes harder to come with a source state that may not compile or worse.
+Forced defaults make harder to produce a pragma expression that does not fit with the given branch code configuration, and it makes harder to come with a source state that may not compile, or worse.
 
 
 ### Everyday usage tips
 
  - Save all files opened in your IDE before applying configuration!  Otherwise your code migh not compile, or – in a worst case – you may end with a couple of heisenbugs lurking.
  - Have your work commited in the local working branch before you apply changes.
- - `git diff` after applying configuration. Cleanly applied configuration should have only a few pragma changes showing in the diff: `retarget` tool is still an early **beta** and possibly will be beta for some time. _Caveat emptor!_
+ - `git diff` after applying configuration. Cleanly applied configuration should have only a few pragma changes showing in the diff: `retarget` tool is still an early **beta** and possibly will be beta for quite a some time. _Caveat emptor!_
  - To avoid pollution of an upstream repository (with pragma select diffs) a single configuration of the main branch should always be applied via a precommit hook to all files coming form branches of other code configurations.
  - Do not push upstream _side_ code configurations (ones that override bare `@branch` settings).
  - Keep retarget branch names and your git/svn/fossil branch names in sync
  - Every and each SVCs branch should touch only its own `retarget` branch configuration lines in `retarget.flags` file.
- - To ease on diff and merges later on `branch:` lines for a given branch defaults should be surrounded by enough non changing comment lines.
+ - To ease on diff and merges of `retarget.flags` later on, `branch:` lines for a given branch defaults should be surrounded by enough non changing comment lines.
 
 
 ### Pragma edit tips
 
 1. use `--stubli --stubif --stubel --stubsw --stubca --stubtag` to add pragmas. Let tool make a well formed pragma. You can't do this by hand.
-1. The only places human is expected to _overwrite_ are condition flag predicates __+ - *__, in a generated pragma and – with care – knob selectors.
+1. The only places human is expected to _overwrite_ are condition flag predicates __+ - *__, in a generated pragma and, with care, knob variant selectors.
 1. Span marking pragmas should be put alone in a separate line.  Otherwise `dart format` may surprise you in a least expected way.
-1. Pragmas' span should close over a natural code scope. Ie. all parentheses, brackets, and braces within a pair of pragmas must be balanced (there is no lint for that, it would be slow).
+1. Pragmas' span should close over a natural code scope. Ie. all parentheses, brackets, and braces within a pair of pragmas must be balanced (there is no lint for that, it would be too slow and it would duplicate work of the analyzer).
 1. Pragma enclosed spans can be nested, but for now there is no lint whether inner span will ever activate. If sponors came, such lint could be made.
 
 
 ### Stay modest
 
-With retarget's flags/knobs/knob-variants limit being 7:7:6, respectively, you can still produce over 15 millions of distinct code configurations. **Don't do that!**.
+With retarget's flags/knobs/knob-variants limit being 7:7:6, respectively, you can still produce over 15 millions of distinct code configurations.
 
 1. Thinking two to three flags is somehow manageable. Thinking three-to-five knob \#cases is somehow manageable. Anything more **is not**.
 1. Do not sprinkle your source file with dozens of pragmas. The `retarget` parser will understand the flow, humans will not.  Single knob, plus single if/else nested spans (or vice-versa) per file are ok.  Five nested knobs filled with ifs will shot off all your legs soon.
@@ -170,7 +170,7 @@ Adding a flag, or knob, or knob variant is easy. Removing a flag or knob variant
 
 ### Windows™ encoding caveats
 
-1. Retarget works through sources on a raw bytes level. It means it will not touch UTF-16LE encoded files at all. Generating pragmas through the shell pipe also needs an UTF-8 aware environment. Per session basis it can be done manually using `chcp 65001` command. Recent Windows cli solutions like "Windows Terminal", or "Cmder" are utf-8 aware and let you configure UTF-8 once for all via session profiles.
+1. Retarget works through sources on a raw (utf8) bytes level. It means it will not touch UTF-16LE encoded files at all. Generating pragmas through the shell pipe also needs an UTF-8 aware environment. Per session basis it can be done manually using `chcp 65001` command. Recent Windows cli solutions like "Windows Terminal", or "Cmder" are utf-8 aware and let you configure UTF-8 once for all via session profiles.
 1. Line endings do not matter to `retarget`, except for the `:Target:` informative pragma that has two lines. Normally `:Target:` will adapt to the line endings convention _of the file_ at apply time, but it will be broken if your editor (or your git) will change line endings back and forth.
 
 
@@ -181,10 +181,10 @@ Adding a flag, or knob, or knob variant is easy. Removing a flag or knob variant
  - [x] Lint for most common failures after copy/paste source edits (done)
  - [x] Copy user edits of condition to the other pragma lines in a set (done)
  - [x] Hint \#switch _default_ case scope with variants uppercased (done)
- - [ ] In-project Dart powered test suite (TBD, external Go testing shouldnt be mixed in)
- - [ ] rich regression tests suite in Dart (TBD)
- - [ ] CI pipelines support (`-S` and `--defcf` TBD)
+ - [x] Integration test of apply enginge (done)
  - [ ] Publish as a package on the `pub.dev` site
+ - [ ] Tests for flags/cli linter (TBD, thats > 60 cases now)
+ - [ ] CI pipelines support (`-S` and `--defcf` TBD)
 
 _Main areas of concern now are Dart-native tests, then CI pipelines support._
 
@@ -215,6 +215,15 @@ test/**/*.dart
                 exit code - error messages for human user are printed out.
 ```
 _Note: CI support, except RT\_ERRCODES, is just planned as of now_.
+
+
+### Install from pub.dev
+
+If you intend to use `retarget` tool with more than one project, you probably should install it globally. Please constrain global installation to a specific version (as a precaution against supply-chain exploits).
+```
+$ pub global activate retarget 0.1.0
+```
+_Better yet, install `retarget` straight from sources:_
 
 
 ### Install from github
@@ -268,7 +277,7 @@ examples:
 
 ### License
 
-Retarget is a tool, not a library. Not much of it can be reused. Hence it is dual licensed: under CC BY‑ND license for all, then under BSD 3‑Clause license for companies sponsoring project via Github Sponsors. Both licenses text is to be found in the LICENSE file.
+Retarget is a tool, not a library. Not much of it can be reused. Hence it is dual licensed: under CC BY‑ND license for all, then under BSD 3‑Clause license for companies sponsoring project via Github Sponsors. Both licenses text is to be found in the LICENSE file.
 
 
 ### Support
