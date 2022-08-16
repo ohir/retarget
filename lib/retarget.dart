@@ -236,7 +236,7 @@ const samplePragmas =
    retarget @desk +i18n                   # set i18n @desk
    retarget @desk +i18n -dev              # set i18n, unset dev @desk
    retarget @desk os.web +dev +i18n       # set web, set dev, i18n @desk
-   retarget @desk os.win -dev \=🦄       # override forced -🦄
+   retarget @desk os.win -dev \\=🦄       # override forced -🦄
    retarget @desk screen.=mobile          # override forbidden !mobile
 */
 
