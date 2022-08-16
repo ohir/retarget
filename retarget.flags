@@ -1,8 +1,9 @@
-# retarget.flags file for trunk
+# retarget.flags
 # This sample flags file is for a really big shop. Play a bit with it then
 # stick to two flags (eg. +dev +loc) and two knobs (eg. .os, .screen).
 # Two plus two equals sixty! Ie. that many integration test cases you might
 # need (4 states from two flags, × 5 states of .os knob, × 3 screen sizes).
+# This configuration template works with `--sample > lib/filename.dart` test.
 #
 # Flags:
 #     +dev   under development - +dev code may have dragonbugs lurking.
@@ -11,11 +12,11 @@
 #     +18n   apply only to the stable parts of the app (after translations
 #            for a given feature were loaded to the cloud and vetted)
 #      !🦄   You may not do unicorns until you're able to make ordinary ponies
-#            happy.  Ie. "would be nice to have" big features are behind +🦄.
-# !release   guards local dev secrets. +release enables production backends.
+#            happy.   Ie. "would be nice to have" big features are behind +🦄.
+# !release   +release enables production backends, & guards local dev secrets.
 #            You can not pass code to release signer pipeline unless you
 #            override forced -release state (set +18n -loud -lbe -dev too).
-#            Read the docs, Luke! (And read release rules).
+#            Read the docs, and release rules, Luke!
 #
 main: +dev *loud =lbe *i18n !🦄 !release       # +lbe -🦄 -release forced
 main: .?os .apos .+droid .lin .win .web        # platform knob
@@ -38,9 +39,9 @@ drodev: .?store .fibase .!icloud .dsql .+locbe # icloud excluded
 drodev: .?native .amd .+arm .losong .mips      # all cpus
 
 ### DeskOS
-desk: +dev *loud =lbe *i18n !🦄 !release       #
-desk: .?os .apos .droid .+lin .win .web        # web is desk
-desk: .?screen .+desk .!mobile .tv              # chromecasted too
+desk: +dev *loud =lbe +i18n !🦄 !release       #
+desk: .?os .apos .droid .+lin .win .web        # web is for desk too
+desk: .?screen .+desk .!mobile .tv             # chromecasted tv
 desk: .?store .fibase .icloud .dsql .+locbe    # icloud excluded
 desk: .?native .+amd .arm .losong .mips        # all cpus
 
@@ -58,20 +59,22 @@ shipit: .?native .amd .+arm .losong .mips
 #
 # ------ TL;DR docs -----------------------------------------------------
 # bname: tells the branch name (one then summoned with `retarget @bname`)
-#        next line should provide flags and their defaults.
+#        next line should provide flags and their default predicates:
+#        eg. bname: +flagA -flagB *flagC =flagD !flagE %flagF (up to 7)
+#
 # + - *  tells the stub engine what to put on a new #ifconf pragmas.
 #        Also informs the apply engine of default state for the branch.
 # = ! %  forbids to simply override respective +, -, or * on the cli.
 #        Overrides on the cli must be then forced too.
 #
-#        Next are knob definitions (up to 7):
-# .?name    makes a knob, .variant names follow (up to 6)
+#        Next are knob definitions (up to 7 knobs up to 6 variants each):
+# .?name    makes a knob, .variant names follow (min:2 max:6, 7th is .*)
 # .+variant makes it a default for this knob (in a branch)
 # .=variant forces it to be the only default, others may not be chosen
 # .!variant forbids user to choose this variant (in a branch)
 #
 # All flag and variant names must be unique. Then all defined branches
 # must have the same set of flags, knobs, and variants as "main:" has.
-# Only predicates (+-* etc) on flags and variants may differ.
+# Only predicates ( + - * % ! = ) on flags and variants may differ.
 # Thorough the code pragmas must keep order estabilished in "main:".
-# Main configuration itself is the one summoned by bare "retarget @".
+# Main code configuration itself is one for the bare "retarget @".

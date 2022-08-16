@@ -269,7 +269,7 @@ pragmas:
 
 examples:
     --init       prints example of a configuration template. You may redirect
-                    output to a real file using ` >>retarget.flags`
+                    output to a real file using ` >retarget.flags`
     --sample     prints source that uses all pragmas.  Make real test file
                     redirecting output with eg. `>lib/rtsample.dart`
 ```

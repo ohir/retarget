@@ -122,7 +122,7 @@ class Cmline {
       ..addFlag('init',
           negatable: false,
           help:
-              "prints example of a configuration template. You may redirect\n   output to a real file using ` >>retarget.flags`")
+              "prints example of a configuration template. You may redirect\n   output to a real file using ` >retarget.flags`")
       ..addFlag('sample',
           negatable: false,
           help:
