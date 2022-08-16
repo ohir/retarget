@@ -451,7 +451,8 @@ class CfgLines {
         } else if (!stub && u.isCfgFlux()) {
           err.writeln(
               '  - [cli] "${u.toStrItem()}" has meaning only in stubs. Use "+" or "-" for apply');
-        } else if (u & 15 == d & 15) {
+          // } else if (u & 15 == d & 15) {
+        } else if (u.agreesWith(d)) {
           actitems.add(d.getClean()); // both agree
         } else if (!stub && d.isCfgFlux() && !u.isCfgFlux()) {
           actitems.add(u.getClean());
@@ -472,7 +473,7 @@ class CfgLines {
     }
     if (actitems.length > 64) {
       err.writeln('''
-  - Way too many expression items in project. Original defaults at 7:7:7 make for
+  - Way too many expression items in project. Original defaults at 7:7:6 make for
     105413504 (over 100M) code variants! Are you ready to code 100M+ test cases?!''');
     }
   } // CfgLines constructor
@@ -706,6 +707,7 @@ extension ItemFlags on CfgItem {
   bool isKnobName() => this & 3 == 3;
   bool isKnobSet() => this & 3 == 3 || this & 9 == 9; // name || varSet
   bool isCfgUnset() => this & 4 != 0;
+  bool agreesWith(CfgItem other) => this & 15 == other & 15;
   CfgItem getClean() => this & 0x7fffffffffffff8f;
   CfgItem getAsUnset() => (this & 0x7fffffffffffff87) | 4;
   CfgItem getAsSet() => (this & 0x7fffffffffffff8B) | 8;
