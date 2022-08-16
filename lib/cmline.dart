@@ -172,11 +172,11 @@ class Cmline {
       exit(dp(0, parser.usage));
     }
     if (_opt['init']) {
-      print(sampleFlagsBig);
+      print(sampleFlagsBig.trim());
       exit(0);
     }
     if (_opt['sample']) {
-      print(samplePragmas);
+      print(samplePragmas.trim());
       exit(0);
     }
     String userguard = _opt['guard'] ?? _guard(uc: _opt['ucguard']);

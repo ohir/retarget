@@ -3,11 +3,10 @@
 --- branch specific notes for trunk branch ---
 --- branch specific notes for trunk branch ---
 --- branch specific notes for trunk branch ---
-
 https://git-scm.com/docs/githooks#_pre_merge_commit
 we should do `git status -sb --porcelain here` then reset HEADS for all new files
 IF the branch is main. Therefore chores with removing new files will be automatic,
-for the chores of adding new files manually _before_ merge, ie. 
+for the chores of adding new files manually _before_ merge, ie.
 `touch new-file`
 commit empty new-file
 then we will have U pdate instead of N new
@@ -113,7 +112,7 @@ Rules: .name.v1.v2.v3.v4   # name varflag with four variants
         cmline selector uses `@bname .os.win` `@bname .os.and`
         switches do not mix with ifs
 
-Changed name from varflag to knob 
+Changed name from varflag to knob
 
 Lint: there can be a onofs-set defined in config that is nowhere
       used. But there can be NO switch that uses undefined OneOf
@@ -221,3 +220,7 @@ for i, tb byte in allflag {
               obs.writeCharCode(c);
               obs.write(') ');
             } */
+--- SPAD ---
+      print('ARG: $arg\nCLI: ${cfgLines.cli}');
+        print('res: $res\nexp: ${ti.chg}');
+------------

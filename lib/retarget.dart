@@ -11,7 +11,7 @@ Support links are avaliable at https://github.com/ohir/retarget project site */
 
 import 'dart:io';
 
-// TODO nag
+// TODO nag. > 8 items in flags AND 10+ files changed
 // TODO goldenfile hash based tests
 // TODO refactor sublisting to creating views
 // as in var kname = Uint8List.sublistView(bu, a.fl + 1, i);
@@ -156,7 +156,7 @@ const sampleFlagsBig = '''# retarget.flags
 #            override forced -release state (set +18n -loud -lbe -dev too).
 #            Read the docs, and release rules, Luke!
 #
-main: +dev *loud =lbe +i18n !🦄 !release       # +lbe -🦄 -release forced
+main: +dev *loud =lbe *i18n !🦄 !release       # +lbe -🦄 -release forced
 main: .?os .apos .+droid .lin .win .web        # platform knob
 main: .?screen .desk .=mobile .tv              # display knob
 main: .?store .fibase .icloud .dsql .+locbe    # storage knob, +dev uses +locbe
