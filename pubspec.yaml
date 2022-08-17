@@ -1,8 +1,16 @@
 name: retarget
-description: supports conditional compilation of platform-specific Flutter UI code using \#if and \#switch pragmas.
-version: 0.1.1
+description: "supports conditional compilation of platform-specific Flutter UI code using #ifconf and #switch pragmas."
+version: 0.1.2
 homepage: https://github.com/ohir/retarget
 repository: https://github.com/ohir/retarget
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
 
 executables:
   retarget:

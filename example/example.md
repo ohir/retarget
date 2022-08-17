@@ -6,8 +6,8 @@ main: .?os .+ios .android .mac .lin .win .web  # platform (knob)
 ```
 
  - `+loud` flag enables _firehose logging_ code normally not wanted in production app that millions might use
- - `+dev` flag to switch between in-house/development backends (URIs/Credentials) and that of production environment in the cloud.
- - `os` target platform _knob_ allows us to be sure that large swaths of UI code dealing with target platform specific layouts do not ship for other platforms.
+ - `+dev` flag allows to switch between in-house development backends (URIs/credentials) and that of production environment in the cloud.
+ - `os` target platform _knob_ allows us to be sure that parts of UI code dealing with target platform specific layouts ship only for the right platform. While the tree-shaking stage of AOT compiler likely works now, only commented out code is _guaranteed_ not to make into executable.
 
 
 ### built-in example files

@@ -1,3 +1,7 @@
+## 0.1.2
+
+- force pub.dev to show tool as intended to work for all platforms
+
 ## 0.1.1
 
 - Obey packaging conventions for a commandline tool (ie. move _all_ sources to `bin/`)
