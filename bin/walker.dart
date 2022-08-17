@@ -853,7 +853,9 @@ List<FileSystemEntity> findWorkSync(Config cfg) {
   final files = <FileSystemEntity>[];
   void add(FileSystemEntity fi) => files.add(fi);
   for (var ourd in ourSubdirs) {
-    Directory('${cfg.dir.path}$osSEP$ourd')
+    var dir = Directory('${cfg.dir.path}$osSEP$ourd');
+    if (!dir.existsSync()) continue;
+    dir
         .listSync(followLinks: false, recursive: true)
         .where((x) => isServicedFile(x))
         .forEach(add);
