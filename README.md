@@ -41,6 +41,7 @@ Code span is uncomented only if all +/- predicates are met (logical AND) - other
 
 Only expressions on the `#ifconf` pragma matters to the tool. Ones on `#else` and `#efi` are meant for the reading human. If they diverge, eg. after the `#ifconf` line edit, tool will fix predicates on `#else`/`#efi` itself.
 
+
 ## Knobs (switches)
 
 `One of` type switches can select a single active code span from among up to six.  Switches can be exhaustive (ie. where all cases defined in the `retarget.flags` must be present and linter checks for the cases' completeness). Or they can have a default code span that activates if no specific case is selected. Default span is always the first one and its condition is given on the `#switch` pragma as `kname.*`.  Exhaustive switch has one of its case conditions given right to the `#switch` pragma.
@@ -131,6 +132,15 @@ Eg. `apmob: !dro !mips =ios *dev %test` will template a pragma expression o
 Forced defaults make harder to produce a pragma expression that does not fit with the given branch code configuration, and it makes harder to come with a source state that may not compile, or worse.
 
 
+### Pragma edit tips
+
+1. use `--stubli --stubif --stubel --stubsw --stubca --stubtag` to add pragmas. Let tool make a well formed pragma. You can't do this by hand.
+1. The only places human is expected to _overwrite_ are condition flag predicates __+ - *__, in a generated pragma and, with care, knob variant selectors.
+1. Span marking pragmas should be put alone in a separate line.  Otherwise `dart format` may surprise you in a least expected way.
+1. Pragmas' span should close over a natural code scope. Ie. all parentheses, brackets, and braces within a pair of pragmas must be balanced (there is no lint for that, it would be too slow and it would duplicate work of the analyzer).
+1. Pragma enclosed spans can be nested, but for now there is no lint whether inner span will ever activate. If sponors came, such lint could be made.
+
+
 ### Everyday usage tips
 
  - Save all files opened in your IDE before applying configuration!  Otherwise your code migh not compile, or – in a worst case – you may end with a couple of heisenbugs lurking.
@@ -143,13 +153,19 @@ Forced defaults make harder to produce a pragma expression that does not fit wit
  - To ease on diff and merges of `retarget.flags` later on, `branch:` lines for a given branch defaults should be surrounded by enough non changing comment lines.
 
 
-### Pragma edit tips
+### Configure dependencies
 
-1. use `--stubli --stubif --stubel --stubsw --stubca --stubtag` to add pragmas. Let tool make a well formed pragma. You can't do this by hand.
-1. The only places human is expected to _overwrite_ are condition flag predicates __+ - *__, in a generated pragma and, with care, knob variant selectors.
-1. Span marking pragmas should be put alone in a separate line.  Otherwise `dart format` may surprise you in a least expected way.
-1. Pragmas' span should close over a natural code scope. Ie. all parentheses, brackets, and braces within a pair of pragmas must be balanced (there is no lint for that, it would be too slow and it would duplicate work of the analyzer).
-1. Pragma enclosed spans can be nested, but for now there is no lint whether inner span will ever activate. If sponors came, such lint could be made.
+While developing multiplatform Flutter apps you likely will need to conditionally include different set of dependencies for different target configurations. Eg. [macOS UI](https://github.com/GroovinChip/macos_ui) for desktop Mac, then [Fluent UI](https://pub.dev/packages/fluent_ui) for desktop Windows - as an addition to Flutter's Material/Cupertino widget sets.
+
+You then need to deal with `pubspec.yaml` (and other non-dart files) changes.  It can be done on the git level, albeit with chores. Author himself uses `.git/info/attributes` to keep per-branch dependencies stay `ours` on merge. Development continues in `trunk-target` branches, then is merged with `--no-ff --no-commit` gatekeeper that allows to sift out unwanted changes leaking to `main`.
+
+ _Read [Git Book |Attributes](https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes) for basic instructions (technique is described in the last section)_.
+
+
+### Windows™ encoding caveats
+
+1. Retarget works through sources on a raw (utf8) bytes level. It means it will not touch UTF-16LE encoded files at all. Generating pragmas through the shell pipe also needs an UTF-8 aware environment. Per session basis it can be done manually using `chcp 65001` command. Recent Windows cli solutions like "Windows Terminal", or "Cmder" are utf-8 aware and let you configure UTF-8 once for all via session profiles.
+1. Line endings do not matter to `retarget`, except for the `:Target:` informative pragma that has two lines. Normally `:Target:` will adapt to the line endings convention _of the file_ at apply time, but it will be broken if your editor (or your git) will change line endings back and forth.
 
 
 ### Stay modest
@@ -160,18 +176,11 @@ With retarget's flags/knobs/knob-variants limit being 7:7:6, respectively, you c
 1. Do not sprinkle your source file with dozens of pragmas. The `retarget` parser will understand the flow, humans will not.  Single knob, plus single if/else nested spans (or vice-versa) per file are ok.  Five nested knobs filled with ifs will shot off all your legs soon.
 1. Make each branch template to have as few moving parts (non-forced flags/variants) as possible. Let yourself to use at most `+/-dev`, `+/-loud` after the `@branch` that sets everything else for the target platform and screen.
 
-Final warning: **with app in production you can not remove a flag!**
+Final bold warning: **with app in production you can not remove a flag!**
 
 Adding a flag, or knob, or knob variant is easy. Removing a flag or knob variant is next to impossible once even a smallest sliver of app logic that depends on a new flag state was written.  Way to back off closes fast and tight with each additional line under a new condition. It is better to plan carefully ahead then stick with it for the project's life.
 
 > once there were tool options to add/rename configuration pieces, but these were retracted. Do not ask for them to be brought back, please.
-
-
-
-### Windows™ encoding caveats
-
-1. Retarget works through sources on a raw (utf8) bytes level. It means it will not touch UTF-16LE encoded files at all. Generating pragmas through the shell pipe also needs an UTF-8 aware environment. Per session basis it can be done manually using `chcp 65001` command. Recent Windows cli solutions like "Windows Terminal", or "Cmder" are utf-8 aware and let you configure UTF-8 once for all via session profiles.
-1. Line endings do not matter to `retarget`, except for the `:Target:` informative pragma that has two lines. Normally `:Target:` will adapt to the line endings convention _of the file_ at apply time, but it will be broken if your editor (or your git) will change line endings back and forth.
 
 
 ### Project state
@@ -186,8 +195,6 @@ Adding a flag, or knob, or knob variant is easy. Removing a flag or knob variant
  - [ ] Tests for flags/cli linter (TBD, thats > 60 cases now)
  - [ ] CI pipelines support (`-S` and `--defcf` TBD)
 
-_Main areas of concern now are Dart-native tests, then CI pipelines support._
-
 
 ### Files
 ```
@@ -196,7 +203,7 @@ retarget.flags  keeps at least one defined configuration. If it is not present a
                 the pubspec.yaml, and CI's `--defcf` is not given either, tool will exit.
                 Ie. No config – no fun.
 *.dart          Tool target files
-*.dartx         For testing tool itself, and for safe playing with "misbehaving" files
+*.rtdart        For testing tool itself, and for safe playing with "misbehaving" files
                 for all users.
 
 lib/**/*.dart   Only conventional Dart source locations are searched (recursively).
@@ -221,7 +228,7 @@ _Note: CI support, except RT\_ERRCODES, is just planned as of now_.
 
 If you intend to use `retarget` tool with more than one project, you probably should install it globally. Please constrain global installation to a specific version (as a precaution against supply-chain exploits).
 ```
-$ pub global activate retarget 0.1.0
+$ pub global activate retarget 0.1.1
 ```
 _Better yet, install `retarget` straight from sources:_
 

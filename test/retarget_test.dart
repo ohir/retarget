@@ -3,9 +3,9 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:retarget/retarget.dart';
-import 'package:retarget/rtconf.dart';
-import 'package:retarget/walker.dart';
+import '../bin/retarget.dart';
+import '../bin/rtconf.dart';
+import '../bin/walker.dart';
 import 'package:test/test.dart';
 
 /// test cases operate on --sample string, using --init flags @main
@@ -36,11 +36,11 @@ var rtInp = <TaskOf>[
   TaskOf('pristine', '', '', 'nochg'),
   TaskOf('os.lin', 'os.lin', '', ' BW1'),
   TaskOf('os.win', 'os.win', '',
-      ' BW1 1522* 1525/ 2366/ 2367* 2481* 2482/ 2602/ 2603/'),
+      ' BW1 1523* 1526/ 2367/ 2368* 2482* 2483/ 2603/ 2604/'),
   //TaskOf('set.', 'os.lin', '', ''),
-  TaskOf('unset.dev', '-dev', '', ' BW1 1990/ 1991* 2107* 2108/ 2225/ 2226/'),
+  TaskOf('unset.dev', '-dev', '', ' BW1 1991/ 1992* 2108* 2109/ 2226/ 2227/'),
   TaskOf('set.i18n', '+i18n', '',
-      ' BW1 1732/ 1733/ 1849/ 1850/ 1990/ 1991* 2107* 2108/ 2225/ 2226/'),
+      ' BW1 1733/ 1734/ 1850/ 1851/ 1991/ 1992* 2108* 2109/ 2226/ 2227/'),
   TaskOf(
     'screen.desk',
     'screen.desk',
@@ -51,13 +51,13 @@ var rtInp = <TaskOf>[
     'force.screen.desk',
     'screen.=desk',
     '',
-    ' BW1 2733/ 2734/ 2860/ 2861* 2991/ 2992/',
+    ' BW1 2734/ 2735/ 2861/ 2862* 2992/ 2993/',
   ),
   TaskOf(
     'force.screen.tv',
     'screen.=tv',
     '',
-    ' BW1 2860/ 2861/ 2991* 2992/ 3114/ 3115/',
+    ' BW1 2861/ 2862/ 2992* 2993/ 3115/ 3116/',
   ),
 ];
 
