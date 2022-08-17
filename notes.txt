@@ -11,9 +11,7 @@ for the chores of adding new files manually _before_ merge, ie.
 commit empty new-file
 then we will have U pdate instead of N new
 
-anyway, this for now is a plain old yak-shaving, let it rest
-
-
+enables conditional compilation of platform-specific Flutter UI code using \#if and \#switch pragmas.
 
 //❌RT
 //❌RT 47 47 226 157 140 82 84
