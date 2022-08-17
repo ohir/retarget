@@ -50,15 +50,15 @@ Only expressions on the `#ifconf` pragma matters to the tool. Ones on `#else` an
 // exhaustive switch of three variants:
 //
 /* // { ekwec...: #switch .screen.desk from .screen.DESK.mobile.tv
-       /* Here goes your ".screen.desk" variant code... */
+       // Here goes your ".screen.desk" variant code...
     log('desktop screen layout is active');
 
 */ //}{ ekwec---: #caseof .screen.mobile from .screen.desk.MOBILE.tv
-       /* Here goes your ".screen.mobile" variant code... */
+       // Here goes your ".screen.mobile" variant code...
     log('mobile screen layout is active');
 
 /* //}{ ekwec---: #caseof .screen.tv from .screen.desk.mobile.TV
-       /* Here goes your ".screen.tv" variant code... */
+       // Here goes your ".screen.tv" variant code...
     log('tv screen layout is active');
 
 */ // } ekwec^^^: #esw OF .screen.desk.mobile.tv
@@ -70,15 +70,15 @@ Only expressions on the `#ifconf` pragma matters to the tool. Ones on `#else` an
 // simple switch (with #caseofs for two of five variants):
 //
 /* // { fxziz...: #switch .os.* from .os.ios.droid.LIN.WIN.WEB
-       /* Here goes your "default" case code... */
+       // Here goes your "default" case code...
     log('other OSes code span is active');
 
 */ //}{ fxziz---: #caseof .os.droid from .os.ios.DROID.lin.win.web
-       /* Here goes your ".os.droid" variant code... */
+       // Here goes your ".os.droid" variant code...
     log('android code span is active');
 
 /* //}{ fxziz---: #caseof .os.ios from .os.IOS.droid.lin.win.web
-       /* Here goes your ".os.ios" variant code... */
+       // Here goes your ".os.ios" variant code...
     log('iOS code span is active');
 
 */ // } fxziz^^^: #esw OF .os.ios.droid.lin.win.web
